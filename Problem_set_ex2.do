@@ -60,5 +60,5 @@ gen earnLog = log(earn)
 * Regresión
 reg earnLog post93 anykids treated
 
-/* La tabla da cuenta de los resultados de la regresión. En ese sentido, se encuentra que es significativo el término de interacción introducido. De ese modo, es posible afirmar que el programa EITC contribuyó en un incremento del 16% de las ganancias anuales de las mujeres con hijos.*/
+/* La tabla da cuenta de los resultados de la regresión. En ese sentido, se encuentra que es significativo el término de interacción introducido. De ese modo, es posible afirmar que el programa EITC (la intervención) contribuyó en un incremento del 16% de las ganancias anuales de las mujeres con hijos respecto al grupo sin hijos.*/
 

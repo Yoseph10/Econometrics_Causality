@@ -80,7 +80,7 @@ use BD_Final, clear
 -----------------------*/
 	
 /* La unidad de análisis son las industrias. En específico, cada observación 
-refleja un tipo de subsectgor dentro de un determinada industria.
+refleja un tipo de subsector dentro de un determinada industria.
 */
 
 

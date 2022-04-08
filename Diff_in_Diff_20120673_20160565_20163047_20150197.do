@@ -70,7 +70,11 @@ Exercise 1
 	compress
 	saveold "${main}/exercise_1_data.dta", replace
 
-	
+
+cd "$main"
+
+use BD_Final, clear
+
 /*----------------------
 1) What is the level of observation?
 -----------------------*/
@@ -86,6 +90,8 @@ year>=2001 and 0 otherwise.
 -----------------------*/ 
 
 *Creating treatment dummy
+destring year, replace
+
 gen post_china=0
 replace post_china=1 if year>=2001
 
@@ -105,11 +111,24 @@ replace manuf=0 if missing(manuf)
 estimate (i.e. 2x2 Matrix) of the effect of China entering the WTO on employment (emp). 
 Hint: Define clearly what is your treatment group vs control group and the intervention 
 time. Interpret the results. 
-/*-----------------------*/
+-----------------------*/
 
+sort manuf post_china
+by manuf post_china: sum emp
 
+display ((13366.85-15619.13)-(30579.65-29539.34))
 
+*El resultado es -3292.59. Esto indica que el hecho de que China haya entrado en el World Trade Organization provocó que se pierdan 3293 empleos en promedio.
 
+/*------------------------
+5) Estimate a diff-in-diff regression and make sure you get the same diff-in-diff
+estimate as in part 4.
+-----------------------*/
+ 
+gen treated=post_china*manuf
+reg emp post_china manuf treated
+
+*El estimador diff-in-diff coincide con lo hallado en 4.
 
 
 

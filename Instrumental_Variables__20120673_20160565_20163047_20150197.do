@@ -1,8 +1,45 @@
+/********************
+Problem set: IV
+***
 
-*Llamamos al dataset a trabajar
+Authors
+---------------------
+Luciana Figueroa Valdivia (20120673),
+Chiara Zamora Mendoza (20160565),
+Yoseph Ayala Valencia (20163047),
+Claudia Villena Tagle (20150197)
+*********************/
+
+
+/*----------------------
+Initial script configuration
+-----------------------*/
+
+cls
 clear all
+
 use "C:\Users\USER\Downloads\card.dta", clear
 br
+
+
+/*----------------------------------------------------------------------------
+1. Realice una descripción de las características de los individuos de la muestra
+----------------------------------------------------------------------------*/
+
+tabstat *, stat(mean min max sd) col(stat) format(%4.3f)
+
+/*Como se muestra en la tabla, 68% de los individuos de la muestra vivían cerca de un 4-year college en 1966 y cerca 40% vivían en la región sur en 1976. Asimismo, la educación promedio de los individuos en 1976 es de aproximadamente 13 años. Con respecto a la educación promedio de los padres de estos individuos, este es de 10 años aproximadamente. Además, se observa que mayoría de los individuos (79%) vivían con ambos padres. Con respecto a la raza, solo el 23.36% de la muestra son negros. En relación al estado civil, se observa que la mayoría de los individuos de la muestra están casados (71%). Finalmente, la tabla muestra que el IQ promedio de los individuos es de 102.45 y que la puntuación promedio que obtuvieron en el “Knowledge 
+World of Work Test” fue de 33.54*/
+
+
+/*----------------------------------------------------------------------------
+2. Regresione mediante OLS, la variable lwage, respecto educ, exper, exper2, black, south, smsa, reg661-reg668, y smsa66. Comente los resultados obtenidos, y compárelos con la Tabla 2, Columna 2, del paper de Card (1993)
+----------------------------------------------------------------------------*/
+
+*Realizamos la regresión OLS
+reg lwage educ exper expersq black south smsa reg661 reg662 reg663 reg664 reg665 ///
+	reg666 reg667 reg668 smsa66
+
 
 /*----------------------------------------------------------------------------
 4.-Estime una ecuación para la variable educ de forma reducida, respecto a todas las variables explicatorias usadas en la parte b, incluyendo además la variable nearc4. ¿Qué podría decir respecto de la correlación parcial existente entre educ y nearc4?
@@ -24,11 +61,10 @@ ivreg lwage exper expersq black south smsa reg661 reg662 reg663 reg664 reg665 //
 	
 /* Usando la variable de nearc4 nuevamente, pero ahora haciendo la estimación por variables instrumentales obtenemos los resultados del cuadro anterior. En este podemos ver que el coeficiente de educación, si bien es significativo en ambos casos, es más grande que el obtenido en el ejercicio 2, indicándonos así que un año mas de educación conlleva a un incremento esperado del 13% de los salarios por hora, en centavos, mientras que con el ejercicio anterior se mostraba un incremento del 7%. Referente al resto de variables, hay una diferencia no tan fuerte en los resultados encontrados previamente y las significancias se mantienen.*/
 
-/*----------------------------------------------------------------------------
-6.- Compare el intervalo de confianza a un 95 % del retorno de la educación del inciso 5 con el obtenido en 2.
-----------------------------------------------------------------------------*/
 
-/*7.En presencia de Instrumentos Debiles, el estimador por variables instrumentales esta sesgado en la misma direccion que el estimador por OLS e incluso puede no ser consistente. Para saber si estamos o no ante la presencia de Intrumentos debiles, se pide que testee esto usando el estadıstico de Cragg y Donald (1993) y las tablas de Stock y Yogo (2005) con respecto a la medida del test de Wald . (Hint: Utilice ivreg2 en Stata. Realiza el test automaticamente. */
+/*-------------------------------------------------------------------------------
+7.En presencia de Instrumentos Debiles, el estimador por variables instrumentales esta sesgado en la misma direccion que el estimador por OLS e incluso puede no ser consistente. Para saber si estamos o no ante la presencia de Intrumentos debiles, se pide que testee esto usando el estadıstico de Cragg y Donald (1993) y las tablas de Stock y Yogo (2005) con respecto a la medida del test de Wald . (Hint: Utilice ivreg2 en Stata. Realiza el test automaticamente. 
+-------------------------------------------------------------------------------*/
 
 
 ivreg2 lwage exper expersq black south smsa reg661 reg662 reg663 reg664 reg665 reg666 reg667 reg668 smsa66  (educ = nearc4), first 
@@ -42,7 +78,9 @@ estat firststage
 
 /*Con este segundo estadístico, si podremos identificar valores críticos. Se observa que a nivel teórico se tiene una significancia del 5% pero la significancia empírica será del 10%. Se podrá tolerar un 15% de significancia empírica porque el menor valor propio de la matriz de concentración se encuentra entre los valores críticos del 8.96 (15%) y 16.38 (10%). De esta forma, se concluye que estamos ante un nivel de inferencia aceptable de acuerdo a lo revisado por Stock y Yogo (2005), por lo que se rechaza la hipótesis de que nearc 4 sea un instrumento débil.*/
 
-/*8. En este ejercicio, incluimos la variable nearc2 (vivir cerca de una universidad con 2 años de acreditación en 1966) además de nearc 4 (vivir cerca de una universidad con 4 años de acreditación en 1966) como instrumentos para educación*/
+/*-------------------------------------------------------------------------------
+8. En este ejercicio, incluimos la variable nearc2 (vivir cerca de una universidad con 2 años de acreditación en 1966) además de nearc 4 (vivir cerca de una universidad con 4 años de acreditación en 1966) como instrumentos para educación
+--------------------------------------------------------------------------------*/
 
 /*Primero analizamos cual de las dos variables esta mas fuertemente relacionada con educ.*/
 
